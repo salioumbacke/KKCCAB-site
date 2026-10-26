@@ -66,7 +66,7 @@
         {
           "id": "863ac138-7d77-461d-b334-de24e187c2db",
           "titre": "Siar annuel — Édition",
-          "url": "/uploads/00e39dca-bfef-4147-85d7-d2a4f58a6290.mp4",
+          "url": "https://res.cloudinary.com/igee1f3c/video/upload/v1793019378/kkccab/00e39dca-bfef-4147-85d7-d2a4f58a6290.mp4",
           "image": "",
           "meta": "2026",
           "edition": "2026",
@@ -75,7 +75,7 @@
         {
           "id": "baf71ea2-b689-4b92-ba6f-fadc4af6b9ac",
           "titre": "Siar annuel — Édition1",
-          "url": "/uploads/98734e95-832a-485f-aefa-d21a7f76e5fa.mp4",
+          "url": "https://res.cloudinary.com/igee1f3c/video/upload/v1793019389/kkccab/98734e95-832a-485f-aefa-d21a7f76e5fa.mp4",
           "image": "",
           "meta": "2023",
           "edition": "2023",
@@ -146,122 +146,148 @@
   ],
   "galerie": [
     {
-      "id": "0c6209d2-1a52-4545-b626-fc37d9669d49",
-      "type": "photo",
-      "titre": "siar diatty mbaye",
-      "description": "siar diatty 2025",
-      "url": "/uploads/3facaf2d-8606-4611-ac8c-3bc7226881c6.jpeg",
-      "dateAjout": "2026-10-22T09:22:39.539Z"
-    },
-    {
       "id": "063d2556-1e34-4de0-a7fb-45dcb028e141",
       "type": "video",
       "titre": "Siar annuel — Édition",
       "description": "",
-      "url": "/uploads/00e39dca-bfef-4147-85d7-d2a4f58a6290.mp4",
+      "url": "https://res.cloudinary.com/igee1f3c/video/upload/v1793019378/kkccab/00e39dca-bfef-4147-85d7-d2a4f58a6290.mp4",
       "dateAjout": "2026-10-22T14:26:41.065Z",
       "sectionId": "activite-siar-annuel",
-      "edition": "2026"
+      "edition": "2026",
+      "cloudinaryPublicId": "kkccab/00e39dca-bfef-4147-85d7-d2a4f58a6290",
+      "cloudinaryResourceType": "video"
     },
     {
       "id": "18266bdd-4a4c-4e28-80a1-482f92c78d8a",
       "type": "video",
       "titre": "Siar annuel — Édition1",
       "description": "",
-      "url": "/uploads/98734e95-832a-485f-aefa-d21a7f76e5fa.mp4",
+      "url": "https://res.cloudinary.com/igee1f3c/video/upload/v1793019389/kkccab/98734e95-832a-485f-aefa-d21a7f76e5fa.mp4",
       "dateAjout": "2026-10-22T14:31:56.079Z",
       "sectionId": "activite-siar-annuel",
-      "edition": "2023"
+      "edition": "2023",
+      "cloudinaryPublicId": "kkccab/98734e95-832a-485f-aefa-d21a7f76e5fa",
+      "cloudinaryResourceType": "video"
     },
     {
       "id": "266245de-f7f6-462c-8d69-5596bcbc1dbd",
       "type": "photo",
       "titre": "Serigne Mahmadane2",
       "description": "",
-      "url": "/uploads/21ebe4d8-6fa4-4596-9177-e0dfd677f424.jpeg",
+      "url": "https://res.cloudinary.com/igee1f3c/image/upload/v1793019390/kkccab/21ebe4d8-6fa4-4596-9177-e0dfd677f424.jpg",
       "dateAjout": "2026-10-22T16:00:29.417Z",
       "sectionId": "guide",
-      "edition": ""
+      "edition": "",
+      "cloudinaryPublicId": "kkccab/21ebe4d8-6fa4-4596-9177-e0dfd677f424",
+      "cloudinaryResourceType": "image"
     },
     {
       "id": "f5b8bc67-6418-4759-8086-80804b7a804f",
       "type": "photo",
       "titre": "Serigne Mahmadane",
       "description": "",
-      "url": "/uploads/9369f907-9719-49b9-9303-45998748a132.jpeg",
+      "url": "https://res.cloudinary.com/igee1f3c/image/upload/v1793019391/kkccab/9369f907-9719-49b9-9303-45998748a132.jpg",
       "dateAjout": "2026-10-22T18:55:36.570Z",
       "sectionId": "guide",
-      "edition": ""
+      "edition": "",
+      "cloudinaryPublicId": "kkccab/9369f907-9719-49b9-9303-45998748a132",
+      "cloudinaryResourceType": "image"
     },
     {
       "id": "b3920364-b09f-41e7-aa91-892878ff51bd",
       "type": "photo",
       "titre": "magal22",
       "description": "",
-      "url": "/uploads/0f3a18a2-a91c-4183-90fb-3ea456460e68.jpeg",
+      "url": "https://res.cloudinary.com/igee1f3c/image/upload/v1793019392/kkccab/0f3a18a2-a91c-4183-90fb-3ea456460e68.jpg",
       "dateAjout": "2026-10-22T19:27:55.941Z",
       "sectionId": "galerie",
-      "edition": ""
+      "edition": "",
+      "cloudinaryPublicId": "kkccab/0f3a18a2-a91c-4183-90fb-3ea456460e68",
+      "cloudinaryResourceType": "image"
     },
     {
       "id": "ddc01574-1daf-4751-b704-cf6046021f04",
       "type": "photo",
       "titre": "Serigne Mahmadane",
       "description": "",
-      "url": "/uploads/9d20f2c6-bc6e-4142-a410-edc26dbd5f76.jpeg",
+      "url": "https://res.cloudinary.com/igee1f3c/image/upload/v1793019394/kkccab/9d20f2c6-bc6e-4142-a410-edc26dbd5f76.jpg",
       "dateAjout": "2026-10-22T20:09:07.762Z",
       "sectionId": "guide",
-      "edition": ""
+      "edition": "",
+      "cloudinaryPublicId": "kkccab/9d20f2c6-bc6e-4142-a410-edc26dbd5f76",
+      "cloudinaryResourceType": "image"
     },
     {
       "id": "3fde607a-1fc3-4fdc-b661-7f7d5d703f7d",
       "type": "photo",
       "titre": "Serigne Mahmadane",
       "description": "",
-      "url": "/uploads/6ddffdf6-2b48-4044-abd1-f8f58aa5af45.jpeg",
+      "url": "https://res.cloudinary.com/igee1f3c/image/upload/v1793019395/kkccab/6ddffdf6-2b48-4044-abd1-f8f58aa5af45.jpg",
       "dateAjout": "2026-10-22T20:10:39.878Z",
       "sectionId": "guide",
-      "edition": ""
+      "edition": "",
+      "cloudinaryPublicId": "kkccab/6ddffdf6-2b48-4044-abd1-f8f58aa5af45",
+      "cloudinaryResourceType": "image"
     },
     {
       "id": "f313cadb-9b9c-4a17-b127-78bfc9d5ee07",
       "type": "photo",
       "titre": "Serigne Mahmadane",
       "description": "",
-      "url": "/uploads/e777e024-5086-4bfd-bca2-4c7980933e8f.jpeg",
+      "url": "https://res.cloudinary.com/igee1f3c/image/upload/v1793019396/kkccab/e777e024-5086-4bfd-bca2-4c7980933e8f.jpg",
       "dateAjout": "2026-10-22T20:13:28.904Z",
       "sectionId": "guide",
-      "edition": ""
+      "edition": "",
+      "cloudinaryPublicId": "kkccab/e777e024-5086-4bfd-bca2-4c7980933e8f",
+      "cloudinaryResourceType": "image"
     },
     {
       "id": "4bae0504-28ee-4056-a8b3-fcd71e8c7692",
       "type": "video",
       "titre": "s dane",
       "description": "",
-      "url": "/uploads/c9bb3c0e-4871-45e2-8b69-e86d4eaa57cc.mp4",
+      "url": "https://res.cloudinary.com/igee1f3c/video/upload/v1793019487/kkccab/c9bb3c0e-4871-45e2-8b69-e86d4eaa57cc.mov",
       "dateAjout": "2026-10-23T20:04:36.848Z",
       "sectionId": "guide-discours",
-      "edition": ""
+      "edition": "",
+      "cloudinaryPublicId": "kkccab/c9bb3c0e-4871-45e2-8b69-e86d4eaa57cc",
+      "cloudinaryResourceType": "video"
     },
     {
       "id": "9f24a3d7-088c-4b7c-9aca-447a3b381694",
       "type": "video",
       "titre": "WhatsApp Video 2026 10 20 at 13.07.47",
       "description": "",
-      "url": "/uploads/6e4d487c-3f80-4cb3-9459-933061784725.mp4",
+      "url": "https://res.cloudinary.com/igee1f3c/video/upload/v1793019494/kkccab/6e4d487c-3f80-4cb3-9459-933061784725.mp4",
       "dateAjout": "2026-10-24T12:35:40.562Z",
       "sectionId": "galerie",
-      "edition": ""
+      "edition": "",
+      "cloudinaryPublicId": "kkccab/6e4d487c-3f80-4cb3-9459-933061784725",
+      "cloudinaryResourceType": "video"
     },
     {
       "id": "6cd7ef8b-77dd-4133-a701-4d7a0463e75f",
       "type": "photo",
       "titre": "WhatsApp Image 2026 10 22 at 20.46.31",
       "description": "",
-      "url": "/uploads/6da25306-403a-475b-85be-a536b0501d6e.jpeg",
+      "url": "https://res.cloudinary.com/igee1f3c/image/upload/v1793019495/kkccab/6da25306-403a-475b-85be-a536b0501d6e.jpg",
       "dateAjout": "2026-10-24T12:46:11.995Z",
       "sectionId": "galerie",
-      "edition": ""
+      "edition": "",
+      "cloudinaryPublicId": "kkccab/6da25306-403a-475b-85be-a536b0501d6e",
+      "cloudinaryResourceType": "image"
+    },
+    {
+      "id": "58c79a58-dac5-45c6-8926-b6031027f374",
+      "type": "photo",
+      "titre": "WhatsApp Image 2026 10 25 at 10.08.42",
+      "description": "",
+      "url": "https://res.cloudinary.com/igee1f3c/image/upload/v1793019126/kkccab/64e317ae-9f22-4658-b4a6-24e90561510a.jpg",
+      "cloudinaryPublicId": "kkccab/64e317ae-9f22-4658-b4a6-24e90561510a",
+      "cloudinaryResourceType": "image",
+      "dateAjout": "2026-10-26T12:52:06.897Z",
+      "sectionId": "galerie",
+      "edition": "2023"
     }
   ],
   "membres": [
@@ -271,7 +297,7 @@
       "categorie": "Dieuwrigne du Daara",
       "role": "Dieuwrigne Du Darra",
       "commission": "",
-      "photo": "/uploads/356e5a8e-6f3f-4c01-a444-51866634f467.jpeg"
+      "photo": "https://res.cloudinary.com/igee1f3c/image/upload/v1793019496/kkccab/356e5a8e-6f3f-4c01-a444-51866634f467.jpg"
     },
     {
       "id": "05ff7cef-9168-4502-a303-6846a399ee88",
@@ -279,7 +305,7 @@
       "categorie": "Bureau exécutif",
       "role": "Coordonateur",
       "commission": "",
-      "photo": "/uploads/315763fc-237e-407d-a284-f090f684ade5.jpeg"
+      "photo": "https://res.cloudinary.com/igee1f3c/image/upload/v1793019497/kkccab/315763fc-237e-407d-a284-f090f684ade5.jpg"
     },
     {
       "id": "6391ee23-8958-4595-98a3-b704c0a7895d",
@@ -287,7 +313,7 @@
       "categorie": "Bureau exécutif",
       "role": "Membre du Comite Directoire",
       "commission": "",
-      "photo": "/uploads/1440a9af-0962-4c43-9aca-3fcd576193a4.jpeg"
+      "photo": "https://res.cloudinary.com/igee1f3c/image/upload/v1793019498/kkccab/1440a9af-0962-4c43-9aca-3fcd576193a4.jpg"
     },
     {
       "id": "24767bd3-01bf-40fd-8cbc-9ea797c05681",
@@ -295,7 +321,7 @@
       "categorie": "Membre fondateur",
       "role": "Secrétaire Générale",
       "commission": "",
-      "photo": "/uploads/65099168-5463-4da8-bf6e-15b94b706b51.jpeg"
+      "photo": "https://res.cloudinary.com/igee1f3c/image/upload/v1793019499/kkccab/65099168-5463-4da8-bf6e-15b94b706b51.jpg"
     },
     {
       "id": "002fbb84-4085-4bd8-b111-950e3c17442a",
@@ -303,7 +329,7 @@
       "categorie": "Membre actif",
       "role": "Membre Actif",
       "commission": "",
-      "photo": "/uploads/8336f465-8e08-4554-817e-f3f7c0de2203.jpeg"
+      "photo": "https://res.cloudinary.com/igee1f3c/image/upload/v1793019500/kkccab/8336f465-8e08-4554-817e-f3f7c0de2203.jpg"
     },
     {
       "id": "8db7c458-c927-417f-a08e-8b2b3c07bd80",
@@ -311,7 +337,7 @@
       "categorie": "Membre fondateur",
       "role": "Membre du Comite Directoire",
       "commission": "",
-      "photo": "/uploads/a9969661-158c-4eb8-8bf2-06d97ff66d3d.jpeg"
+      "photo": "https://res.cloudinary.com/igee1f3c/image/upload/v1793019501/kkccab/a9969661-158c-4eb8-8bf2-06d97ff66d3d.jpg"
     },
     {
       "id": "22ed198e-6956-4d45-863e-9af0c080296a",
@@ -319,7 +345,15 @@
       "categorie": "Membre fondateur",
       "role": "Dieuwrign Du Comite Conservatoire, Membre du Comite Directoire",
       "commission": "",
-      "photo": "/uploads/4e761f15-5679-4fd8-ab1b-ea0022e9e1a8.jpeg"
+      "photo": "https://res.cloudinary.com/igee1f3c/image/upload/v1793019501/kkccab/4e761f15-5679-4fd8-ab1b-ea0022e9e1a8.jpg"
+    },
+    {
+      "id": "41a59009-23fd-4a6d-a963-4cedf482d278",
+      "nom": "Pape Faye Baye Fall",
+      "categorie": "Bureau exécutif",
+      "role": "Membre du Comite Directoire",
+      "commission": "",
+      "photo": "https://res.cloudinary.com/igee1f3c/image/upload/v1793019771/kkccab/2703e29f-d569-407b-a588-233acf7b483f.jpg"
     }
   ],
   "actualites": [],
@@ -334,8 +368,10 @@
       "type": "audio",
       "titre": "fuzti",
       "description": "",
-      "url": "/uploads/a5db9777-57cf-4f6e-89d8-8fdb36fe04fd.ogg",
-      "dateAjout": "2026-10-22T10:13:26.145Z"
+      "url": "https://res.cloudinary.com/igee1f3c/video/upload/v1793019502/kkccab/a5db9777-57cf-4f6e-89d8-8fdb36fe04fd.ogg",
+      "dateAjout": "2026-10-22T10:13:26.145Z",
+      "cloudinaryPublicId": "kkccab/a5db9777-57cf-4f6e-89d8-8fdb36fe04fd",
+      "cloudinaryResourceType": "video"
     }
   ],
   "rubriquesActivitesInitialisees": true,
@@ -401,10 +437,10 @@
   "activitesInitialisees": true,
   "guidePhotoUrl": "images/guide-1.jpg",
   "guidePhotos": [
-    "/uploads/9369f907-9719-49b9-9303-45998748a132.jpeg",
-    "/uploads/9d20f2c6-bc6e-4142-a410-edc26dbd5f76.jpeg",
-    "/uploads/6ddffdf6-2b48-4044-abd1-f8f58aa5af45.jpeg",
-    "/uploads/e777e024-5086-4bfd-bca2-4c7980933e8f.jpeg"
+    "https://res.cloudinary.com/igee1f3c/image/upload/v1793019391/kkccab/9369f907-9719-49b9-9303-45998748a132.jpg",
+    "https://res.cloudinary.com/igee1f3c/image/upload/v1793019394/kkccab/9d20f2c6-bc6e-4142-a410-edc26dbd5f76.jpg",
+    "https://res.cloudinary.com/igee1f3c/image/upload/v1793019395/kkccab/6ddffdf6-2b48-4044-abd1-f8f58aa5af45.jpg",
+    "https://res.cloudinary.com/igee1f3c/image/upload/v1793019396/kkccab/e777e024-5086-4bfd-bca2-4c7980933e8f.jpg"
   ],
   "guide": {
     "nom": "",
@@ -412,5 +448,5 @@
     "texte": "",
     "photo": ""
   },
-  "guideVideoUrl": "/uploads/c9bb3c0e-4871-45e2-8b69-e86d4eaa57cc.mp4"
+  "guideVideoUrl": "https://res.cloudinary.com/igee1f3c/video/upload/v1793019487/kkccab/c9bb3c0e-4871-45e2-8b69-e86d4eaa57cc.mov"
 }
