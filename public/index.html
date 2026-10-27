@@ -1852,56 +1852,35 @@
     }
 }
 
-/* Ne pas laisser les animations cacher les contenus */
-.fade-up,
-.slide-left,
-.slide-right,
-.zoom-in {
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: none !important;
-}
-
-@media screen and (max-width: 768px) {
-    section,
-    section h1,
-    section h2,
-    section h3,
-    section p {
-        visibility: visible;
-    }
-}
-
-
-/* CORRECTION : AFFICHER LES SECTIONS SUR TOUS LES APPAREILS */
-
-.fade-up,
-.slide-left,
-.slide-right,
-.zoom-in,
-.fade-up.visible,
-.slide-left.visible,
-.slide-right.visible,
-.zoom-in.visible {
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: none !important;
-    animation: none !important;
-}
-
-/* Éviter que les éléments animés restent invisibles sur iPhone */
+/* CORRECTION RESPONSIVE :
+   - Sur ordinateur, conserver les animations au défilement.
+   - Sur téléphone, afficher immédiatement tous les contenus,
+     même si Safari ne déclenche pas correctement l'observateur. */
 @media screen and (max-width: 992px) {
     .fade-up,
     .slide-left,
     .slide-right,
-    .zoom-in {
+    .zoom-in,
+    .fade-up.visible,
+    .slide-left.visible,
+    .slide-right.visible,
+    .zoom-in.visible {
         opacity: 1 !important;
         visibility: visible !important;
         transform: none !important;
         animation: none !important;
     }
-}
 
+    section,
+    section h1,
+    section h2,
+    section h3,
+    section h4,
+    section p,
+    section img {
+        visibility: visible;
+    }
+}
 
 </style>
 </head>
