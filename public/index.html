@@ -1807,7 +1807,103 @@
     }
 }
 
-    </style>
+/* CORRECTION AFFICHAGE MOBILE — KKCCAB */
+@media screen and (max-width: 992px) {
+    header {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        height: 85px;
+    }
+
+    .nav-container {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        width: 100% !important;
+        padding: 0 16px !important;
+    }
+
+    .menu-toggle {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        color: #ffffff !important;
+        font-size: 28px !important;
+        position: relative;
+        z-index: 1002;
+    }
+
+    .nav-links {
+        display: flex !important;
+        visibility: visible;
+        opacity: 1;
+        position: absolute !important;
+        top: 85px;
+        left: -100%;
+        width: 100%;
+        background: #072516;
+        flex-direction: column;
+        z-index: 1001;
+    }
+
+    .nav-links.active {
+        left: 0 !important;
+    }
+}
+
+/* Ne pas laisser les animations cacher les contenus */
+.fade-up,
+.slide-left,
+.slide-right,
+.zoom-in {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+}
+
+@media screen and (max-width: 768px) {
+    section,
+    section h1,
+    section h2,
+    section h3,
+    section p {
+        visibility: visible;
+    }
+}
+
+
+/* CORRECTION : AFFICHER LES SECTIONS SUR TOUS LES APPAREILS */
+
+.fade-up,
+.slide-left,
+.slide-right,
+.zoom-in,
+.fade-up.visible,
+.slide-left.visible,
+.slide-right.visible,
+.zoom-in.visible {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    animation: none !important;
+}
+
+/* Éviter que les éléments animés restent invisibles sur iPhone */
+@media screen and (max-width: 992px) {
+    .fade-up,
+    .slide-left,
+    .slide-right,
+    .zoom-in {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        animation: none !important;
+    }
+}
+
+
+</style>
 </head>
 <body>
 
@@ -1845,7 +1941,6 @@
         </nav>
     </div>
 </header>
-```
 <!-- HERO -->
 <section class="hero" id="rejoindre">
     <div class="hero-content fade-up">
@@ -1934,7 +2029,7 @@
         </div>
     </div>
 </section>
-```
+
 <a href="https://wa.me/221785996527" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
 <!-- PRÉSENTATION -->
@@ -2163,7 +2258,6 @@
         </div>
     </div>
 </section>
-```
 
 <!-- ORGANISATION -->
 <section class="section-padding bg-cream" id="organisation">
@@ -2487,10 +2581,24 @@
     window.addEventListener('beforeunload', () => window.scrollTo(0, 0));
 
     // ============ ANIMATIONS AU SCROLL ============
+   const elementsAnimes = document.querySelectorAll(
+    '.fade-up, .slide-left, .slide-right, .zoom-in'
+);
+
+if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.fade-up, .slide-left, .slide-right, .zoom-in').forEach(el => observer.observe(el));
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.05 });
+
+    elementsAnimes.forEach(el => observer.observe(el));
+} else {
+    elementsAnimes.forEach(el => el.classList.add('visible'));
+}
 
     // ============ MENU MOBILE ============
     function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
@@ -2732,7 +2840,10 @@ function openTab(tabName, button) {
             const ajouter = (url, titre = 'Photo du guide') => {
                 if (typeof url !== 'string' || !url.trim()) return;
                 const u = url.trim();
-                if (!/\.(jpg|jpeg|png|webp|gif)(\?.*)?$/i.test(u) && !u.startsWith('/uploads/')) return;
+               if (
+               !u.startsWith('/uploads/') &&
+                !/^https?:\/\//i.test(u)
+                ) return;
                 if (!photos.some(p => p.url === u)) photos.push({ url: u, titre });
             };
 
@@ -3074,11 +3185,14 @@ async function chargerGaleriePublique() {
 
         // La galerie publique n'affiche que les médias explicitement affectés à « Galerie générale ».
         // Les médias du guide, de la présentation et des activités restent dans leurs propres rubriques.
-        mediasGalerie = liste
-            .filter(media => String(media.sectionId || '') === 'galerie')
-            .map(normaliserMedia)
-            .filter(media => media.url && ['photo', 'video'].includes(media.type));
-
+       mediasGalerie = liste
+    .map(normaliserMedia)
+    .filter(media =>
+        media.url &&
+        /^https?:\/\//i.test(media.url) &&
+        ['photo', 'video'].includes(media.type) &&
+        String(media.sectionId || '') === 'galerie'
+    );
         afficherGaleriePublique();
     } catch (erreur) {
         console.error('Erreur de chargement de la galerie :', erreur);
