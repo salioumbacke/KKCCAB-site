@@ -2750,15 +2750,22 @@ function openTab(tabName, button) {
         resetAutoPlay(id);
     }
 
-    function autoScroll(id) {
-        const c = document.getElementById(id);
-        const maxScroll = c.scrollWidth - c.clientWidth;
-        if (c.scrollLeft >= maxScroll - 15) {
-            c.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-            c.scrollBy({ left: getStep(c), behavior: 'smooth' });
-        }
+   function autoScroll(id) {
+    const c = document.getElementById(id);
+
+    // Éviter une erreur si le carrousel n'existe pas
+    if (!c) return;
+
+    const maxScroll = c.scrollWidth - c.clientWidth;
+
+    if (maxScroll <= 0) return;
+
+    if (c.scrollLeft >= maxScroll - 15) {
+        c.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+        c.scrollBy({ left: getStep(c), behavior: 'smooth' });
     }
+}
 
     const timers = {};
     function startAutoPlay(id, interval = 15000) { stopAutoPlay(id); timers[id] = setInterval(() => autoScroll(id), interval); }
