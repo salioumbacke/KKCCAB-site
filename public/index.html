@@ -1807,49 +1807,29 @@
     }
 }
 
-/* CORRECTION AFFICHAGE MOBILE — KKCCAB */
+/
+/* CORRECTION AFFICHAGE MOBILE KKCCAB */
 @media screen and (max-width: 992px) {
-    header {
-        display: flex !important;
-        visibility: visible !important;
+    .fade-up,
+    .slide-left,
+    .slide-right,
+    .zoom-in {
         opacity: 1 !important;
-        height: 85px;
-    }
-
-    .nav-container {
-        display: flex !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-        width: 100% !important;
-        padding: 0 16px !important;
-    }
-
-    .menu-toggle {
-        display: block !important;
         visibility: visible !important;
-        opacity: 1 !important;
-        color: #ffffff !important;
-        font-size: 28px !important;
-        position: relative;
-        z-index: 1002;
+        transform: none !important;
     }
 
-    .nav-links {
-        display: flex !important;
-        visibility: visible;
-        opacity: 1;
-        position: absolute !important;
-        top: 85px;
-        left: -100%;
-        width: 100%;
-        background: #072516;
-        flex-direction: column;
-        z-index: 1001;
+    section[id] {
+        visibility: visible !important;
     }
+}
 
-    .nav-links.active {
-        left: 0 !important;
-    }
+
+/* Sécurité : garder visible la rubrique Membres si l'observateur d'animation échoue. */
+#membres .container {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
 }
 
 /* CORRECTION RESPONSIVE :
@@ -1880,6 +1860,27 @@
     section img {
         visibility: visible;
     }
+}
+
+
+/* CORRECTION IPHONE : garantir l'affichage des contenus chargés depuis le back-office */
+@media screen and (max-width: 992px) {
+  #guideSlider, #guideDots, #activitesPubliques, #galeriePublique,
+  #membresScroll, #khassidasListe, #liveTime, #liveDate, #liveStatus,
+  #liveMembers, .carousel-wrapper, .carousel-track, .event-card,
+  .gallery-item, .audio-item, .kh-audio-card, .tab-content,
+  #presentationTexte, .guide-video, .guide-video-container {
+    visibility: visible !important;
+  }
+  #guideSlider, #activitesPubliques, #galeriePublique, #membresScroll,
+  #khassidasListe, .carousel-track, .event-card, .gallery-item,
+  .audio-item, .kh-audio-card {
+    opacity: 1 !important;
+  }
+  #guideSlider img, #galeriePublique img, #membresScroll img,
+  #activitesPubliques img {
+    max-width: 100%;
+  }
 }
 
 </style>
@@ -2575,6 +2576,17 @@ if ('IntersectionObserver' in window) {
     }, { threshold: 0.05 });
 
     elementsAnimes.forEach(el => observer.observe(el));
+
+    // Filet de sécurité : ne jamais laisser des contenus invisibles si l'observateur
+    // ne se déclenche pas sur un appareil ou un navigateur.
+    window.setTimeout(() => {
+        elementsAnimes.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight * 1.5 && rect.bottom > -window.innerHeight) {
+                el.classList.add('visible');
+            }
+        });
+    }, 1200);
 } else {
     elementsAnimes.forEach(el => el.classList.add('visible'));
 }
@@ -3121,8 +3133,12 @@ function echapperHTML(valeur) {
 }
 
 function normaliserMedia(media) {
-    const url = media.url || media.src || media.chemin || media.fichier || '';
+    let url = String(media.url || media.src || media.chemin || media.fichier || '').trim();
     const titre = media.titre || media.nom || media.title || 'Souvenir du Daara';
+
+    if (url.startsWith('uploads/')) url = '/' + url;
+    if (url.startsWith('./uploads/')) url = url.slice(1);
+    if (url.startsWith('/public/uploads/')) url = url.replace('/public/uploads/', '/uploads/');
     const typeBrut = String(media.type || media.categorie || '').toLowerCase();
 
     const estVideo =
@@ -3164,14 +3180,24 @@ async function chargerGaleriePublique() {
 
         // La galerie publique n'affiche que les médias explicitement affectés à « Galerie générale ».
         // Les médias du guide, de la présentation et des activités restent dans leurs propres rubriques.
-       mediasGalerie = liste
-    .map(normaliserMedia)
-    .filter(media =>
-        media.url &&
-        /^https?:\/\//i.test(media.url) &&
-        ['photo', 'video'].includes(media.type) &&
-        String(media.sectionId || '') === 'galerie'
-    );
+        mediasGalerie = liste
+            .map(normaliserMedia)
+            .filter(media => {
+                const url = String(media.url || '').trim();
+                const urlValide =
+                    /^https?:\/\//i.test(url) ||
+                    url.startsWith('/uploads/') ||
+                    url.startsWith('uploads/') ||
+                    url.startsWith('./uploads/') ||
+                    url.startsWith('/public/uploads/');
+                const section = String(media.sectionId || '').trim().toLowerCase();
+
+                // Accepter les chemins locaux et les anciens médias sans sectionId.
+                // Les médias explicitement affectés à une autre rubrique restent exclus.
+                return urlValide &&
+                    ['photo', 'video'].includes(media.type) &&
+                    (!section || section === 'galerie' || section === 'galerie-generale');
+            });
         afficherGaleriePublique();
     } catch (erreur) {
         console.error('Erreur de chargement de la galerie :', erreur);
@@ -3259,18 +3285,6 @@ function afficherGaleriePublique() {
     });
 }
 
-function ouvrirPhoto(url, titre) {
-    const image = document.getElementById('photoModalImage');
-    const titreEl = document.getElementById('photoModalTitre');
-    const modal = document.getElementById('photoModal');
-
-    if (!image || !titreEl || !modal) return;
-
-    image.src = url;
-    titreEl.textContent = titre;
-    modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-}
 
 function fermerPhoto() {
     const modal = document.getElementById('photoModal');
@@ -4020,6 +4034,57 @@ document.addEventListener('keydown', function(event) {
 
 
 
+</script>
+
+<!-- Filet de sécurité mobile : relancer les chargements si Safari a raté l'initialisation initiale. -->
+<script>
+(function () {
+  function lancerChargementsMobiles() {
+    if (window.matchMedia && !window.matchMedia('(max-width: 992px)').matches) return;
+
+    // Révéler aussi les éléments ajoutés dynamiquement après l'observateur d'animations.
+    document.querySelectorAll('.fade-up, .slide-left, .slide-right, .zoom-in').forEach(function (el) {
+      el.classList.add('visible');
+      el.style.visibility = 'visible';
+    });
+
+    var fonctions = [
+      'chargerPhotosGuide',
+      'chargerMembresPublics',
+      'chargerActivitesPubliques',
+      'chargerGaleriePublique',
+      'khChargerBibliotheque',
+      'chargerContenuPublicKKCCAB',
+      'chargerPresentationPublique',
+      'chargerContactPublicKKCCAB',
+      'updateLive'
+    ];
+
+    fonctions.forEach(function (nom) {
+      try {
+        if (typeof window[nom] === 'function') {
+          Promise.resolve().then(function () { return window[nom](); }).catch(function (err) {
+            console.error('Chargement mobile KKCCAB (' + nom + ') :', err);
+          });
+        }
+      } catch (err) {
+        console.error('Initialisation mobile KKCCAB (' + nom + ') :', err);
+      }
+    });
+  }
+
+  if (document.readyState === 'complete') {
+    window.setTimeout(lancerChargementsMobiles, 500);
+  } else {
+    window.addEventListener('load', function () {
+      window.setTimeout(lancerChargementsMobiles, 500);
+    });
+  }
+  // Safari peut restaurer la page depuis son cache arrière-plan.
+  window.addEventListener('pageshow', function () {
+    window.setTimeout(lancerChargementsMobiles, 700);
+  });
+})();
 </script>
 </body>
 </html>
