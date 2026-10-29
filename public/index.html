@@ -2035,7 +2035,7 @@
     <div class="presentation-image">
         <img
             id="publicPresentationImage"
-            src="images/presentation.jpg"
+            src="/images/presentation/presentation.jpg"
             alt="Présentation du Daara Khitmatoul Khadim CCAB"
         >
     </div>
@@ -2355,49 +2355,32 @@
             </div>
         </div>
 
-        <!-- APERÇU PDF -->
-        <div class="kh-block kh-pdf-block">
-            <div class="kh-heading">
-                <div>
-                    <span class="kh-kicker">LECTURE & MÉDITATION</span>
-                    <h3><i class="fas fa-book-open"></i> Lire les Khassida</h3>
-                    <p>Consultez les textes disponibles en PDF.</p>
-                </div>
-                <span class="kh-count">Bibliothèque PDF</span>
-            </div>
-
-            <div class="kh-preview-grid" id="khPdfPreview">
-                <article class="kh-pdf-card">
-                    <div class="kh-pdf-icon"><i class="fas fa-file-pdf"></i></div>
-                    <div>
-                        <h4>Matlaboul Fawzayni</h4>
-                        <p>Texte arabe et traduction</p>
-                        <a href="pdfs/matlaboul-fawzayni.pdf" target="_blank" rel="noopener">
-                            <i class="fas fa-book-open"></i> Lire le PDF
-                        </a>
-                    </div>
-                </article>
-
-                <article class="kh-pdf-card">
-                    <div class="kh-pdf-icon"><i class="fas fa-file-pdf"></i></div>
-                    <div>
-                        <h4>Jazboul Qouloub</h4>
-                        <p>Recueil de poèmes</p>
-                        <a href="pdfs/jazboul-qouloub.pdf" target="_blank" rel="noopener">
-                            <i class="fas fa-book-open"></i> Lire le PDF
-                        </a>
-                    </div>
-                </article>
-            </div>
-
-            <div class="kh-actions">
-                <button class="kh-main-btn kh-outline-btn" onclick="ouvrirBibliotheque('pdf')">
-                    Parcourir tous les PDF
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
+        
+<!-- APERÇU PDF -->
+<div class="kh-block kh-pdf-block">
+    <div class="kh-heading">
+        <div>
+            <span class="kh-kicker">LECTURE & MÉDITATION</span>
+            <h3><i class="fas fa-book-open"></i> Lire les Khassida</h3>
+            <p>Consultez les textes disponibles en PDF.</p>
         </div>
+        <span class="kh-count" id="khPdfCount">Bibliothèque PDF</span>
     </div>
+
+    <div class="kh-preview-grid" id="khPdfPreview">
+        <p class="kh-message">Chargement des documents PDF...</p>
+    </div>
+
+    <div class="kh-actions">
+        <button class="kh-main-btn kh-outline-btn"
+                type="button"
+                onclick="ouvrirBibliotheque('pdf')">
+            Parcourir tous les PDF
+            <i class="fas fa-arrow-right"></i>
+        </button>
+    </div>
+</div>
+
 </section>
 
 <!-- PAGE BIBLIOTHÈQUE KHASSIDA -->
@@ -2654,75 +2637,187 @@ function openTab(tabName, button) {
 
     // Activités chargées depuis le back-office
     async function chargerActivitesPubliques() {
-      const conteneur = document.getElementById('activitesPubliques');
-      if (!conteneur) return;
-      try {
-        const response = await fetch('/api/activites', {
-          method: 'GET',
-          headers: { Accept: 'application/json' },
-          cache: 'no-store'
-        });
-        if (!response.ok) throw new Error('Chargement impossible');
-        const resultat = await response.json();
-        const activites = Array.isArray(resultat) ? resultat : (resultat.activites || []);
-        conteneur.replaceChildren();
-        if (!activites.length) { conteneur.innerHTML = '<p>Aucune activité disponible pour le moment.</p>'; return; }
-        activites.forEach((a, index) => {
-          const card = document.createElement('article');
-          // Les cartes sont ajoutées après l'initialisation de l'IntersectionObserver.
-          // Ne pas leur appliquer slide-left/slide-right : elles resteraient invisibles.
-          card.className = 'event-card';
-          const imageWrap = document.createElement('div'); imageWrap.className = 'event-card-image';
-          const img = document.createElement('img');
-          const imagePath = a.image || 'images/activites/seances-khassida.jpg';
-          img.src = /^(https?:)?\/\//i.test(imagePath) || imagePath.startsWith('/') ? imagePath : '/' + imagePath.replace(/^\.\//, '');
-          img.alt = a.titre || 'Activité';
-          img.onerror = () => { img.onerror = null; img.src = 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=600&q=80'; };
-          const frequency = document.createElement('span'); frequency.className = 'event-frequency' + (a.frequence === 'Hebdomadaire' ? ' featured' : ''); frequency.textContent = a.frequence || 'Activité';
-          const location = document.createElement('span'); location.className = 'event-location'; location.innerHTML = '<i class="fas fa-map-marker-alt"></i> ';
-          location.append(document.createTextNode(a.lieu || 'Lieu à préciser'));
-          const icon = document.createElement('div'); icon.className = 'event-icon';
-          const iconEl = document.createElement('i'); iconEl.className = 'fas ' + (a.icone || 'fa-calendar'); icon.append(iconEl);
-          imageWrap.append(img, frequency, location, icon);
-          const body = document.createElement('div'); body.className = 'event-body';
-          const title = document.createElement('h3'); title.textContent = a.titre || 'Activité';
-          const description = document.createElement('p'); description.textContent = a.description || '';
-          body.append(title, description);
-          if (a.date) { const date = document.createElement('p'); date.className = 'event-date'; date.textContent = 'Date : ' + a.date; body.append(date); }
-          const videos = Array.isArray(a.videos) ? a.videos : [];
-          if (videos.length) {
-            const accId = 'acc-activite-' + String(a.id || index).replace(/[^a-zA-Z0-9_-]/g, '-');
-            const toggle = document.createElement('button'); toggle.className = 'btn-accordion'; toggle.type = 'button';
-            const label = document.createElement('span'); label.innerHTML = '<i class="fas fa-video"></i> Voir les vidéos ';
-            const count = document.createElement('span'); count.className = 'video-count'; count.textContent = String(videos.length); label.append(count);
-            const chevron = document.createElement('i'); chevron.className = 'fas fa-chevron-down'; toggle.append(label, chevron);
-            toggle.addEventListener('click', () => toggleAccordion(accId, toggle));
-            const panel = document.createElement('div'); panel.id = accId; panel.className = 'accordion-content';
-            const list = document.createElement('div'); list.className = 'video-list';
-            videos.forEach(v => {
-              const button = document.createElement('button'); button.type = 'button'; button.className = 'video-item';
-              button.addEventListener('click', () => openVideo(v.url || '', v.titre || a.titre || 'Vidéo', v.meta || 'Vidéo du Daara'));
-              const thumb = document.createElement('div'); thumb.className = 'video-thumb-small';
-              const thumbImg = document.createElement('img'); thumbImg.src = v.image || 'images/videos/seance-vendredi.jpg'; thumbImg.alt = v.titre || 'Vidéo';
-              thumbImg.onerror = () => { thumbImg.onerror = null; thumbImg.src = 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=200&q=60'; };
-              const play = document.createElement('div'); play.className = 'video-play-small'; play.innerHTML = '<i class="fas fa-play"></i>'; thumb.append(thumbImg, play);
-              const text = document.createElement('div'); text.className = 'video-text';
-              const vt = document.createElement('h5'); vt.textContent = v.titre || 'Vidéo';
-              const meta = document.createElement('span'); meta.innerHTML = '<i class="fas fa-video"></i> '; meta.append(document.createTextNode(v.meta || 'Vidéo du Daara'));
-              text.append(vt, meta); button.append(thumb, text); list.append(button);
+        const conteneur = document.getElementById('activitesPubliques');
+        if (!conteneur) return;
+
+        // Vidéos locales disponibles dans public/videos/activites/.
+        // Les vidéos Cloudinary enregistrées auparavant ne sont pas utilisées ici.
+        const videosLocales = {
+            journeeKhassida: [
+                '/videos/activites/JourneeKhassida1.mp4',
+                '/videos/activites/JourneeKhassida2.mp4',
+                '/videos/activites/JourneeKhassida3.mp4',
+                '/videos/activites/JourneeKhassida4.mp4'
+            ],
+            siar: [
+                '/videos/activites/WhatsApp%20Video%202026-10-29%20at%2011.30.36.mp4'
+            ]
+        };
+
+        function videosPourActivite(titre) {
+            const nom = String(titre || '')
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase();
+
+            if (nom.includes('journee') && nom.includes('khassida')) {
+                return videosLocales.journeeKhassida;
+            }
+            if (nom.includes('seance') && nom.includes('khassida')) {
+                return videosLocales.journeeKhassida;
+            }
+            if (nom.includes('siar')) {
+                return videosLocales.siar;
+            }
+
+            // Aucun fichier vidéo valide correspondant au Magal n'est disponible pour le moment.
+            return [];
+        }
+
+        try {
+            const response = await fetch('/api/data', {
+                method: 'GET',
+                headers: { Accept: 'application/json' },
+                cache: 'no-store'
             });
-            panel.append(list);
-            const close = document.createElement('button'); close.className = 'accordion-close'; close.type = 'button'; close.innerHTML = '<i class="fas fa-times"></i> Fermer';
-            close.addEventListener('click', () => toggleAccordion(accId, toggle)); panel.append(close);
-            body.append(toggle, panel);
-          }
-          card.append(imageWrap, body); conteneur.append(card);
-        });
-        if (typeof initScrollAnimations === 'function') initScrollAnimations();
-      } catch (error) {
-        conteneur.innerHTML = '<p>Les activités ne peuvent pas être chargées pour le moment.</p>';
-        console.error('Chargement activités publiques :', error);
-      }
+            if (!response.ok) {
+                throw new Error('Chargement impossible : ' + response.status);
+            }
+
+            const resultat = await response.json();
+            const activites = Array.isArray(resultat.activites)
+                ? resultat.activites
+                : [];
+            conteneur.replaceChildren();
+
+            if (!activites.length) {
+                conteneur.innerHTML = '<p>Aucune activité disponible pour le moment.</p>';
+                return;
+            }
+
+            activites.forEach((a, index) => {
+                const numero = index + 1;
+                const card = document.createElement('article');
+                card.className = 'event-card';
+
+                const imageWrap = document.createElement('div');
+                imageWrap.className = 'event-card-image';
+                const img = document.createElement('img');
+                img.src = `/images/activites/activite${numero}.jpg`;
+                img.alt = a.titre || `Activité ${numero}`;
+                img.onerror = () => {
+                    img.onerror = null;
+                    img.style.display = 'none';
+                    imageWrap.classList.add('no-image');
+                };
+
+                const frequency = document.createElement('span');
+                frequency.className = 'event-frequency' +
+                    (a.frequence === 'Hebdomadaire' ? ' featured' : '');
+                frequency.textContent = a.frequence || 'Activité';
+
+                const location = document.createElement('span');
+                location.className = 'event-location';
+                location.innerHTML = '<i class="fas fa-map-marker-alt"></i> ';
+                location.append(document.createTextNode(a.lieu || 'Lieu à préciser'));
+
+                const icon = document.createElement('div');
+                icon.className = 'event-icon';
+                const iconEl = document.createElement('i');
+                iconEl.className = 'fas ' + (a.icone || 'fa-calendar');
+                icon.append(iconEl);
+                imageWrap.append(img, frequency, location, icon);
+
+                const body = document.createElement('div');
+                body.className = 'event-body';
+                const title = document.createElement('h3');
+                title.textContent = a.titre || 'Activité';
+                const description = document.createElement('p');
+                description.textContent = a.description || '';
+                body.append(title, description);
+
+                if (a.date) {
+                    const date = document.createElement('p');
+                    date.className = 'event-date';
+                    date.textContent = 'Date : ' + a.date;
+                    body.append(date);
+                }
+
+                const videos = videosPourActivite(a.titre);
+                if (videos.length) {
+                    const accId = 'acc-activite-' +
+                        String(a.id || index).replace(/[^a-zA-Z0-9_-]/g, '-');
+
+                    const toggle = document.createElement('button');
+                    toggle.className = 'btn-accordion';
+                    toggle.type = 'button';
+                    const label = document.createElement('span');
+                    label.innerHTML = '<i class="fas fa-video"></i> Voir les vidéos';
+                    const chevron = document.createElement('i');
+                    chevron.className = 'fas fa-chevron-down';
+                    toggle.append(label, chevron);
+                    toggle.addEventListener('click', () => toggleAccordion(accId, toggle));
+
+                    const panel = document.createElement('div');
+                    panel.id = accId;
+                    panel.className = 'accordion-content';
+                    const liste = document.createElement('div');
+                    liste.className = 'video-list';
+
+                    videos.forEach((videoUrl, videoIndex) => {
+                        const button = document.createElement('button');
+                        button.type = 'button';
+                        button.className = 'video-item';
+                        button.addEventListener('click', () => {
+                            openVideo(
+                                videoUrl,
+                                `${a.titre || 'Activité'} — Vidéo ${videoIndex + 1}`,
+                                'Vidéo locale du Daara'
+                            );
+                        });
+
+                        const thumb = document.createElement('div');
+                        thumb.className = 'video-thumb-small';
+                        const thumbImg = document.createElement('img');
+                        thumbImg.src = `/images/activites/activite${numero}.jpg`;
+                        thumbImg.alt = a.titre || 'Vidéo';
+                        thumbImg.onerror = () => { thumbImg.style.display = 'none'; };
+
+                        const play = document.createElement('div');
+                        play.className = 'video-play-small';
+                        play.innerHTML = '<i class="fas fa-play"></i>';
+                        thumb.append(thumbImg, play);
+
+                        const text = document.createElement('div');
+                        text.className = 'video-text';
+                        const vt = document.createElement('h5');
+                        vt.textContent = `${a.titre || 'Activité'} — Vidéo ${videoIndex + 1}`;
+                        const meta = document.createElement('span');
+                        meta.innerHTML = '<i class="fas fa-video"></i> Fichier local';
+                        text.append(vt, meta);
+                        button.append(thumb, text);
+                        liste.append(button);
+                    });
+
+                    panel.append(liste);
+                    const close = document.createElement('button');
+                    close.className = 'accordion-close';
+                    close.type = 'button';
+                    close.innerHTML = '<i class="fas fa-times"></i> Fermer';
+                    close.addEventListener('click', () => toggleAccordion(accId, toggle));
+                    panel.append(close);
+                    body.append(toggle, panel);
+                }
+
+                card.append(imageWrap, body);
+                conteneur.append(card);
+            });
+
+            if (typeof initScrollAnimations === 'function') initScrollAnimations();
+        } catch (error) {
+            conteneur.innerHTML = '<p>Les activités ne peuvent pas être chargées pour le moment.</p>';
+            console.error('Chargement activités publiques :', error);
+        }
     }
     document.addEventListener('DOMContentLoaded', chargerActivitesPubliques);
 
@@ -2822,72 +2917,47 @@ function openTab(tabName, button) {
     }
 
     async function chargerPhotosGuide() {
-        const cadre = document.getElementById('guideSlider');
-        const points = document.getElementById('guideDots');
-        if (!cadre || !points) return;
+    const cadre = document.getElementById('guideSlider');
+    const points = document.getElementById('guideDots');
+    if (!cadre || !points) return;
 
-        try {
-            const [dataResponse, mediasResponse] = await Promise.all([
-                fetch('/api/data', { cache: 'no-store', headers: { Accept: 'application/json' } }),
-                fetch('/api/medias', { cache: 'no-store', headers: { Accept: 'application/json' } })
-            ]);
-            const data = dataResponse.ok ? await dataResponse.json() : {};
-            const mediasData = mediasResponse.ok ? await mediasResponse.json() : {};
-            const galerie = Array.isArray(mediasData.galerie) ? mediasData.galerie : [];
-            const photos = [];
-            const ajouter = (url, titre = 'Photo du guide') => {
-                if (typeof url !== 'string' || !url.trim()) return;
-                const u = url.trim();
-               if (
-               !u.startsWith('/uploads/') &&
-                !/^https?:\/\//i.test(u)
-                ) return;
-                if (!photos.some(p => p.url === u)) photos.push({ url: u, titre });
-            };
+    // Les cinq photos du guide sont des fichiers locaux dans public/images/guide/.
+    const photos = Array.from({ length: 5 }, (_, i) => ({
+        url: `/images/guide/guide${i + 1}.jpg`,
+        titre: `Photo ${i + 1} du guide`
+    }));
 
-            // Priorité aux fichiers explicitement affectés à la rubrique « guide ».
-            galerie.filter(m => String(m.sectionId || '') === 'guide' && /photo|image/i.test(String(m.type || '')))
-                .forEach(m => ajouter(m.url || m.src || m.chemin, m.titre || 'Photo du guide'));
-            if (Array.isArray(data.guidePhotos)) {
-                data.guidePhotos.forEach(m => ajouter(typeof m === 'string' ? m : (m.url || m.src || ''), m.titre || 'Photo du guide'));
+    cadre.innerHTML = '';
+    points.innerHTML = '';
+
+    photos.forEach((photo, i) => {
+        const slide = document.createElement('div');
+        slide.className = 'guide-slide' + (i === 0 ? ' active' : '');
+        const image = document.createElement('img');
+        image.src = photo.url;
+        image.alt = photo.titre;
+        image.loading = i === 0 ? 'eager' : 'lazy';
+        image.onerror = () => {
+            slide.remove();
+            const dot = points.querySelector(`[data-index="${i}"]`);
+            if (dot) dot.remove();
+            if (!cadre.querySelector('.guide-slide')) {
+                cadre.innerHTML = '<p style="padding:24px;text-align:center;color:var(--text-muted);">Ajoute les fichiers guide1.jpg à guide5.jpg dans images/guide/.</p>';
             }
-            // Ne jamais réintroduire les anciennes photos de démonstration du HTML.
-            const photoGuideUnique = String(data.guidePhotoUrl || '').trim();
-            const estAnciennePhotoDemo = /^images\/guide-[1-5]\.(jpg|jpeg|png|webp)$/i.test(photoGuideUnique);
-            if (!estAnciennePhotoDemo) ajouter(photoGuideUnique, 'Photo du guide');
+        };
+        slide.appendChild(image);
+        cadre.appendChild(slide);
 
-            cadre.innerHTML = '';
-            points.innerHTML = '';
-            if (!photos.length) {
-                cadre.innerHTML = '<p style="padding:24px;text-align:center;color:var(--text-muted);">Aucune photo n’est encore affectée au guide. Ajoute-la depuis le back-office → Galerie & khassidas → Photo du guide spirituel.</p>';
-                return;
-            }
-
-            photos.forEach((photo, i) => {
-                const slide = document.createElement('div');
-                slide.className = 'guide-slide' + (i === 0 ? ' active' : '');
-                const image = document.createElement('img');
-                image.src = photo.url;
-                image.alt = photo.titre;
-                image.loading = i === 0 ? 'eager' : 'lazy';
-                image.onerror = () => { slide.remove(); const dot = points.children[i]; if (dot) dot.remove(); };
-                slide.appendChild(image);
-                cadre.appendChild(slide);
-
-                const dot = document.createElement('button');
-                dot.type = 'button';
-                dot.className = 'guide-dot' + (i === 0 ? ' active' : '');
-                dot.setAttribute('aria-label', 'Afficher la photo ' + (i + 1));
-                dot.addEventListener('click', () => afficherPhotoGuide(i));
-                points.appendChild(dot);
-            });
-            lancerDiaporamaGuide();
-        } catch (error) {
-            console.error('Erreur de chargement des photos du guide :', error);
-            cadre.innerHTML = '<p style="padding:24px;text-align:center;color:var(--text-muted);">Impossible de charger les photos du guide.</p>';
-            points.innerHTML = '';
-        }
-    }
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.dataset.index = String(i);
+        dot.className = 'guide-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Afficher la photo ' + (i + 1));
+        dot.addEventListener('click', () => afficherPhotoGuide(i));
+        points.appendChild(dot);
+    });
+    lancerDiaporamaGuide();
+}
     document.addEventListener('DOMContentLoaded', chargerPhotosGuide);
 
     // ============ 100 MEMBRES ============
@@ -2912,72 +2982,51 @@ async function chargerMembresPublics() {
             cache: 'no-store',
             headers: { Accept: 'application/json' }
         });
+        if (!reponse.ok) throw new Error('Impossible de charger les membres.');
 
-        if (!reponse.ok) {
-            throw new Error('Impossible de charger les membres.');
-        }
+        const data = await reponse.json();
+        const membresEnregistres = Array.isArray(data.membres) ? data.membres : [];
 
-                const data = await reponse.json();
-        const membres = Array.isArray(data.membres) ? data.membres : [];
+        // Préparer 75 emplacements photo locaux, en gardant les noms du back-office lorsqu'ils existent.
+        const membres = Array.from(
+            { length: Math.max(75, membresEnregistres.length) },
+            (_, i) => membresEnregistres[i] || ({
+                nom: `Membre ${i + 1}`,
+                role: 'Membre du Daara'
+            })
+        );
 
         conteneur.replaceChildren();
-
-        if (membres.length === 0) {
-            conteneur.innerHTML =
-                '<p>Aucun membre enregistré pour le moment.</p>';
-            return;
-        }
-
-        membres.forEach(membre => {
+        membres.forEach((membre, index) => {
             const carte = document.createElement('div');
             carte.className = 'carousel-item';
-
             const profil = document.createElement('div');
             profil.className = 'member-card-carousel';
-
             const photo = document.createElement('img');
-            photo.alt = membre.nom || 'Membre du Daara';
+            photo.src = `/images/membres/membre${index + 1}.jpg`;
+            photo.alt = membre.nom || `Membre ${index + 1}`;
             photo.loading = 'lazy';
-
-            if (membre.photo) {
-                photo.src = membre.photo;
-            } else {
-                photo.src =
-                    'https://ui-avatars.com/api/?name=' +
-                    encodeURIComponent(membre.nom || 'Membre') +
-                    '&background=0d3b23&color=d1a64a&size=200&bold=true';
-            }
-
             photo.onerror = function () {
                 this.onerror = null;
-                this.src =
-                    'https://ui-avatars.com/api/?name=' +
-                    encodeURIComponent(membre.nom || 'Membre') +
-                    '&background=0d3b23&color=d1a64a&size=200&bold=true';
+                this.style.display = 'none';
             };
 
             const nom = document.createElement('h4');
-            nom.textContent = membre.nom || 'Membre';
-
+            nom.textContent = membre.nom || `Membre ${index + 1}`;
             const fonction = document.createElement('span');
-            fonction.textContent =
-                membre.role || membre.categorie || 'Membre du Daara';
-
+            fonction.textContent = membre.role || membre.categorie || 'Membre du Daara';
             profil.append(photo, nom, fonction);
-
             if (membre.commission) {
                 const commission = document.createElement('small');
                 commission.textContent = membre.commission;
                 profil.appendChild(commission);
             }
-
             carte.appendChild(profil);
             conteneur.appendChild(carte);
         });
     } catch (erreur) {
         console.error('Erreur de chargement des membres :', erreur);
-        conteneur.innerHTML =
-            '<p>Impossible de charger les membres pour le moment.</p>';
+        conteneur.innerHTML = '<p>Impossible de charger les membres pour le moment.</p>';
     }
 }
 
@@ -3170,51 +3219,38 @@ function normaliserMedia(media) {
 async function chargerGaleriePublique() {
     const grille = document.getElementById('galeriePublique');
     const message = document.getElementById('galerieMessage');
-
     if (!grille) return;
 
-    try {
-        const reponse = await fetch('/api/medias', {
-            method: 'GET',
-            headers: { Accept: 'application/json' },
-            cache: 'no-store'
-        });
-
-        if (!reponse.ok) throw new Error('Erreur HTTP ' + reponse.status);
-
-        const donnees = await reponse.json();
-        const liste = Array.isArray(donnees.galerie) ? donnees.galerie : [];
-
-        // La galerie publique n'affiche que les médias explicitement affectés à « Galerie générale ».
-        // Les médias du guide, de la présentation et des activités restent dans leurs propres rubriques.
-        mediasGalerie = liste
-            .map(normaliserMedia)
-            .filter(media => {
-                const url = String(media.url || '').trim();
-                const urlValide =
-                    /^https?:\/\//i.test(url) ||
-                    url.startsWith('/uploads/') ||
-                    url.startsWith('uploads/') ||
-                    url.startsWith('./uploads/') ||
-                    url.startsWith('/public/uploads/');
-                const section = String(media.sectionId || '').trim().toLowerCase();
-
-                // Accepter les chemins locaux et les anciens médias sans sectionId.
-                // Les médias explicitement affectés à une autre rubrique restent exclus.
-                return urlValide &&
-                    ['photo', 'video'].includes(media.type) &&
-                    (!section || section === 'galerie' || section === 'galerie-generale');
-            });
-        afficherGaleriePublique();
-    } catch (erreur) {
-        console.error('Erreur de chargement de la galerie :', erreur);
-        grille.innerHTML = '';
-
-        if (message) {
-            message.hidden = false;
-            message.textContent = 'Impossible de charger la galerie. Vérifie le serveur et la route /api/medias.';
-        }
-    }
+    // Fichiers locaux : images/galerie/galerie1.jpg ... galerie30.jpg
+    // et videos/galerie/video1.mp4 ... video15.mp4.
+    mediasGalerie = [
+        ...Array.from({ length: 30 }, (_, i) => ({
+            url: `/images/galerie/galerie${i + 1}.jpg`,
+            titre: `Souvenir du Daara ${i + 1}`,
+            type: 'photo',
+            categorie: 'Daara'
+        })),
+        ...Array.from({ length: 15 }, (_, i) => ({
+            url: `/videos/galerie/video${i + 1}.mp4`,
+            titre: `Vidéo du Daara ${i + 1}`,
+            type: 'video',
+            categorie: 'Daara'
+        }))
+    ];
+    afficherGaleriePublique();
+    // Supprime automatiquement les cartes si le fichier local n'existe pas.
+    grille.querySelectorAll('.galerie-carte').forEach(carte => {
+        const media = carte.querySelector('img, video');
+        if (!media) return;
+        media.addEventListener('error', () => {
+            carte.remove();
+            const restantes = grille.querySelectorAll('.galerie-carte').length;
+            if (!restantes && message) {
+                message.hidden = false;
+                message.textContent = 'Ajoute tes fichiers dans images/galerie/ et videos/galerie/.';
+            }
+        }, { once: true });
+    });
 }
 
 function afficherGaleriePublique() {
@@ -3252,18 +3288,37 @@ function afficherGaleriePublique() {
             image.src = media.url;
             image.alt = media.titre;
             image.loading = 'lazy';
-            image.onerror = () => { image.style.display = 'none'; };
+            image.onerror = () => {
+                carte.remove();
+                if (!grille.querySelector('.galerie-carte') && message) {
+                    message.hidden = false;
+                    message.textContent = 'Ajoute les photos dans public/images/galerie/ (galerie1.jpg, galerie2.jpg, etc.).';
+                }
+            };
 
             visuel.appendChild(image);
             visuel.addEventListener('click', () => ouvrirPhoto(media.url, media.titre));
         } else {
             const video = document.createElement('video');
             video.src = media.url;
-            video.preload = 'metadata';
+            video.preload = 'auto';
             video.muted = true;
             video.playsInline = true;
 
-            if (media.miniature) video.poster = media.miniature;
+            // Affiche une image extraite de la vidéo, pas la première photo de la galerie.
+            video.addEventListener('loadeddata', () => {
+                try {
+                    if (video.duration > 0.2) video.currentTime = 0.1;
+                } catch (_) {}
+            }, { once: true });
+
+            video.onerror = () => {
+                carte.remove();
+                if (!grille.querySelector('.galerie-carte') && message) {
+                    message.hidden = false;
+                    message.textContent = 'Ajoute les vidéos dans public/videos/galerie/ (video1.mp4, video2.mp4, etc.).';
+                }
+            };
 
             visuel.appendChild(video);
            visuel.addEventListener('click', () => ouvrirPhoto(media.url, media.titre));
@@ -3317,11 +3372,18 @@ document.querySelectorAll('.galerie-filtre').forEach(bouton => {
 
 document.addEventListener('keydown', evenement => {
     if (evenement.key === 'Escape') fermerPhoto();
+    const modal = document.getElementById('photoModal');
+    if (modal && modal.classList.contains('open')) {
+        if (evenement.key === 'ArrowLeft') changerPhoto(-1);
+        if (evenement.key === 'ArrowRight') changerPhoto(1);
+    }
 });
 
 document.addEventListener('DOMContentLoaded', chargerGaleriePublique);
 
-// ============ BIBLIOTHÈQUE KHASSIDA ============
+
+/* ============ BIBLIOTHÈQUE KHASSIDA DYNAMIQUE ============ */
+
 let khAudios = [];
 let khPdfItems = [];
 let khTypeActuel = 'audio';
@@ -3339,22 +3401,29 @@ function khEchapper(valeur) {
 function khUrlValide(url) {
     const valeur = String(url || '').trim();
 
-    // Autorise les chemins locaux et les URL HTTP(S), refuse les autres protocoles.
-    if (/^(javascript|data|vbscript):/i.test(valeur)) return '';
+    if (/^(javascript|data|vbscript):/i.test(valeur)) {
+        return '';
+    }
+
     return valeur;
 }
 
 function khCarteAudio(k, index) {
     const titre = khEchapper(k.titre || k.nom || 'Khassida');
-    const url = khEchapper(khUrlValide(k.url || k.src || k.chemin || k.fichier));
+    const url = khEchapper(
+        khUrlValide(k.url || k.src || k.chemin || k.fichier)
+    );
 
     if (!url) return '';
 
     return `
-        <article class="kh-audio-card" style="animation-delay:${Math.min(index, 8) * 60}ms">
-            <div class="kh-audio-symbol"><i class="fas fa-music"></i></div>
+        <article class="kh-audio-card"
+                 style="animation-delay:${Math.min(index, 8) * 60}ms">
+            <div class="kh-audio-symbol">
+                <i class="fas fa-music"></i>
+            </div>
             <h4>${titre}</h4>
-            <p>Récitation spirituelle · Khitmatoul Khadim CCAB</p>
+            <p>${khEchapper(k.description || 'Récitation spirituelle')}</p>
             <audio controls preload="none" src="${url}">
                 Votre navigateur ne prend pas en charge la lecture audio.
             </audio>
@@ -3365,8 +3434,10 @@ function khCarteAudio(k, index) {
 function khNormaliserPdf(pdf) {
     return {
         titre: pdf.titre || pdf.nom || pdf.title || 'Texte de Khassida',
-        url: khUrlValide(pdf.url || pdf.src || pdf.chemin || pdf.fichier || ''),
-        description: pdf.description || pdf.auteur || 'Texte spirituel en PDF'
+        url: khUrlValide(
+            pdf.url || pdf.src || pdf.chemin || pdf.fichier || ''
+        ),
+        description: pdf.description || 'Texte spirituel en PDF'
     };
 }
 
@@ -3378,8 +3449,11 @@ function khCartePdf(pdf, index) {
     if (!url) return '';
 
     return `
-        <article class="kh-pdf-card" style="animation-delay:${Math.min(index, 8) * 60}ms">
-            <div class="kh-pdf-icon"><i class="fas fa-file-pdf"></i></div>
+        <article class="kh-pdf-card"
+                 style="animation-delay:${Math.min(index, 8) * 60}ms">
+            <div class="kh-pdf-icon">
+                <i class="fas fa-file-pdf"></i>
+            </div>
             <div>
                 <h4>${titre}</h4>
                 <p>${description}</p>
@@ -3397,61 +3471,105 @@ async function khChargerBibliotheque() {
 
     if (!apercuAudio) return;
 
+    apercuAudio.innerHTML =
+        '<p class="kh-message">Chargement des récitations...</p>';
+
+    if (apercuPdf) {
+        apercuPdf.innerHTML =
+            '<p class="kh-message">Chargement des documents PDF...</p>';
+    }
+
     try {
         const reponse = await fetch('/api/medias', {
+            method: 'GET',
             headers: { Accept: 'application/json' },
             cache: 'no-store'
         });
 
-        if (!reponse.ok) throw new Error('Erreur HTTP ' + reponse.status);
-
-        const data = await reponse.json();
-
-        // Les audios viennent du back-office.
-        khAudios = Array.isArray(data.khassidas) ? data.khassidas : [];
-
-        // Les PDF utilisent les données renvoyées par l'API si disponibles.
-        const pdfBruts = Array.isArray(data.pdfs)
-            ? data.pdfs
-            : Array.isArray(data.khassidasPdf)
-                ? data.khassidasPdf
-                : [];
-
-        khPdfItems = pdfBruts.map(khNormaliserPdf).filter(pdf => pdf.url);
-
-        // Si l'API ne renvoie pas encore les PDF, conserver les PDF HTML existants.
-        if (!khPdfItems.length && apercuPdf) {
-            khPdfItems = Array.from(apercuPdf.querySelectorAll('a[href]'))
-                .map(lien => {
-                    const carte = lien.closest('.kh-pdf-card');
-                    return khNormaliserPdf({
-                        titre: carte?.querySelector('h4')?.textContent || lien.textContent,
-                        description: carte?.querySelector('p')?.textContent || 'Texte spirituel en PDF',
-                        url: lien.getAttribute('href')
-                    });
-                })
-                .filter(pdf => pdf.url);
+        if (!reponse.ok) {
+            throw new Error('Erreur HTTP ' + reponse.status);
         }
+
+        const donnees = await reponse.json();
+
+        const galerie = Array.isArray(donnees.galerie)
+            ? donnees.galerie
+            : [];
+
+        const khassidas = Array.isArray(donnees.khassidas)
+            ? donnees.khassidas
+            : [];
+
+        // Les audios proviennent des médias enregistrés dans le back-office.
+        khAudios = khassidas
+            .filter(media => {
+                const type = String(media.type || '').toLowerCase();
+                const url = String(media.url || media.fichier || '');
+                return type === 'audio' ||
+                    /\.(mp3|m4a|aac|wav|ogg|opus|flac|webm)(\?.*)?$/i.test(url);
+            })
+            .map(media => ({
+                titre: media.titre || media.nom || 'Khassida audio',
+                description: media.description || 'Récitation spirituelle',
+                url: khUrlValide(
+                    media.url || media.src || media.chemin || media.fichier
+                )
+            }))
+            .filter(media => media.url);
+
+        // Les PDF sont récupérés depuis les médias de la galerie.
+        khPdfItems = galerie
+            .filter(media => {
+                const type = String(media.type || '').toLowerCase();
+                const url = String(media.url || media.fichier || '');
+                return type === 'pdf' || /\.pdf(\?.*)?$/i.test(url);
+            })
+            .map(khNormaliserPdf)
+            .filter(pdf => pdf.url);
 
         khAfficherApercu();
         khAfficherTout();
-    } catch (erreur) {
-        console.error('Erreur bibliothèque Khassida :', erreur);
 
-        apercuAudio.innerHTML = `
-            <p class="kh-message">
-                Impossible de charger les audios. Vérifie le serveur et la route /api/medias.
-            </p>`;
+    } catch (erreur) {
+        console.error('Erreur de chargement de la bibliothèque :', erreur);
+
+        apercuAudio.innerHTML =
+            '<p class="kh-message">Impossible de charger les audios. Réessaie plus tard.</p>';
+
+        if (apercuPdf) {
+            apercuPdf.innerHTML =
+                '<p class="kh-message">Impossible de charger les PDF. Réessaie plus tard.</p>';
+        }
+
+        const zoneAudio = document.getElementById('khAllAudio');
+        const zonePdf = document.getElementById('khAllPdf');
+
+        if (zoneAudio) {
+            zoneAudio.innerHTML =
+                '<p class="kh-message">Erreur de chargement des audios.</p>';
+        }
+
+        if (zonePdf) {
+            zonePdf.innerHTML =
+                '<p class="kh-message">Erreur de chargement des PDF.</p>';
+        }
     }
 }
 
 function khAfficherApercu() {
     const zoneAudio = document.getElementById('khAudioPreview');
     const zonePdf = document.getElementById('khPdfPreview');
-    const compteur = document.getElementById('khAudioCount');
+    const compteurAudio = document.getElementById('khAudioCount');
+    const compteurPdf = document.getElementById('khPdfCount');
 
-    if (compteur) {
-        compteur.textContent = `${khAudios.length} audio${khAudios.length > 1 ? 's' : ''}`;
+    if (compteurAudio) {
+        compteurAudio.textContent =
+            `${khAudios.length} audio${khAudios.length > 1 ? 's' : ''}`;
+    }
+
+    if (compteurPdf) {
+        compteurPdf.textContent =
+            `${khPdfItems.length} PDF`;
     }
 
     if (zoneAudio) {
@@ -3460,8 +3578,10 @@ function khAfficherApercu() {
             : '<p class="kh-message">Aucune récitation disponible pour le moment.</p>';
     }
 
-    if (zonePdf && khPdfItems.length) {
-        zonePdf.innerHTML = khPdfItems.slice(0, 3).map(khCartePdf).join('');
+    if (zonePdf) {
+        zonePdf.innerHTML = khPdfItems.length
+            ? khPdfItems.slice(0, 3).map(khCartePdf).join('')
+            : '<p class="kh-message">Aucun PDF disponible pour le moment.</p>';
     }
 }
 
@@ -3478,7 +3598,7 @@ function khAfficherTout() {
     if (zonePdf) {
         zonePdf.innerHTML = khPdfItems.length
             ? khPdfItems.map(khCartePdf).join('')
-            : '<p class="kh-message">Aucun PDF disponible. Ajoute les textes depuis le back-office ou configure leur retour dans /api/medias.</p>';
+            : '<p class="kh-message">Aucun PDF disponible pour le moment.</p>';
     }
 }
 
@@ -3540,6 +3660,7 @@ function fermerBibliotheque() {
 }
 
 document.addEventListener('DOMContentLoaded', khChargerBibliotheque);
+
 
 
 
@@ -3729,13 +3850,9 @@ async function chargerContenuPublicKKCCAB() {
         }
 
         // PHOTO DE PRÉSENTATION
-        const photoPresentation =
-            data.presentationImage ||
-            data.photoPresentation ||
-            data.presentationPhoto;
-
-        if (presentationImage && photoPresentation) {
-            presentationImage.src = photoPresentation;
+        // La photo de présentation est un fichier local fixe.
+        if (presentationImage) {
+            presentationImage.src = '/images/presentation/presentation.jpg';
         }
 
         // GUIDE SPIRITUEL
@@ -3861,32 +3978,11 @@ document.addEventListener('DOMContentLoaded', chargerContactPublicKKCCAB);
 ;
 
 async function ouvrirDiscoursGuide() {
-    try {
-        const response = await fetch("/api/medias", {
-            cache: "no-store"
-        });
-
-        if (!response.ok) {
-            throw new Error("Impossible de charger la vidéo.");
-        }
-
-        const data = await response.json();
-
-        if (!data.guideVideoUrl) {
-            alert("Aucune vidéo du discours n'a été ajoutée.");
-            return;
-        }
-
-        // Ouvrir la vidéo sans afficher le titre du back-office
-        if (typeof openVideo === "function") {
-            openVideo(data.guideVideoUrl, "");
-        } else {
-            window.open(data.guideVideoUrl, "_blank");
-        }
-
-    } catch (error) {
-        console.error("Erreur vidéo :", error);
-        alert("Impossible d'ouvrir la vidéo.");
+    const videoLocale = '/videos/guide/discours.mp4';
+    if (typeof openVideo === 'function') {
+        openVideo(videoLocale, 'Discours du guide', 'Discours du guide spirituel');
+    } else {
+        window.open(videoLocale, '_blank', 'noopener');
     }
 }
 

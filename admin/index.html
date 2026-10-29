@@ -1097,11 +1097,12 @@ input[type=file] {
         <div class="form-grid">
           <div class="field">
             <label for="mediaType">Type de fichier</label>
-            <select name="type" id="mediaType" required>
-              <option value="photo">Photo</option>
-              <option value="video">Vidéo</option>
-              <option value="audio">Khassida / Audio</option>
-            </select>
+           <select name="type" id="mediaType" required>
+  <option value="photo">Photo</option>
+  <option value="video">Vidéo</option>
+  <option value="audio">Khassida / Audio</option>
+  <option value="pdf">Document PDF</option>
+</select>
           </div>
 
           <div class="field full">
@@ -1138,7 +1139,13 @@ input[type=file] {
 
           <div class="field full">
             <label for="mediaFichier">Fichier à envoyer</label>
-            <input id="mediaFichier" type="file" name="fichier" accept="image/*,video/mp4,video/webm,audio/*" required>
+          <input
+  id="mediaFichier"
+  type="file"
+  name="fichier"
+  accept="image/*,video/mp4,video/webm,audio/*,application/pdf,.pdf"
+  required
+>
           </div>
         </div>
 
@@ -1220,17 +1227,95 @@ input[type=file] {
           <input id="membreCommission" placeholder="Nom de la commission, si applicable">
         </div>
 
+      
         <div class="field full">
-          <label for="membrePhotoFichier">Photo du membre</label>
-          <input id="membrePhotoFichier" type="file" accept="image/*">
-          <small>Choisissez une photo depuis votre ordinateur. Laissez vide pour conserver la photo actuelle lors d'une modification.</small>
-        </div>
+         <label for="membreNumeroPhoto">Photo du membre</label>
 
-        <div class="field full">
-          <label for="membrePhoto">Ou adresse de la photo</label>
-          <input id="membrePhoto" placeholder="/uploads/photo.jpg">
-        </div>
-      </div>
+       <select id="membreNumeroPhoto" name="numeroPhoto">
+        <option value="">Aucune photo</option>
+        <option value="1">Photo 1</option>
+        <option value="2">Photo 2</option>
+        <option value="3">Photo 3</option>
+        <option value="4">Photo 4</option>
+        <option value="5">Photo 5</option>
+        <option value="6">Photo 6</option>
+        <option value="7">Photo 7</option>
+        <option value="8">Photo 8</option>
+        <option value="9">Photo 9</option>
+        <option value="10">Photo 10</option>
+        <option value="11">Photo 11</option>
+        <option value="12">Photo 12</option>
+        <option value="13">Photo 13</option>
+        <option value="14">Photo 14</option>
+        <option value="15">Photo 15</option>
+        <option value="16">Photo 16</option>
+        <option value="17">Photo 17</option>
+        <option value="18">Photo 18</option>
+        <option value="19">Photo 19</option>
+        <option value="20">Photo 20</option>
+        <option value="21">Photo 21</option>
+        <option value="22">Photo 22</option>
+        <option value="23">Photo 23</option>
+        <option value="24">Photo 24</option>
+        <option value="25">Photo 25</option>
+        <option value="26">Photo 26</option>
+        <option value="27">Photo 27</option>
+        <option value="28">Photo 28</option>
+        <option value="29">Photo 29</option>
+        <option value="30">Photo 30</option>
+        <option value="31">Photo 31</option>
+        <option value="32">Photo 32</option>
+        <option value="33">Photo 33</option>
+        <option value="34">Photo 34</option>
+        <option value="35">Photo 35</option>
+        <option value="36">Photo 36</option>
+        <option value="37">Photo 37</option>
+        <option value="38">Photo 38</option>
+        <option value="39">Photo 39</option>
+        <option value="40">Photo 40</option>
+        <option value="41">Photo 41</option>
+        <option value="42">Photo 42</option>
+        <option value="43">Photo 43</option>
+        <option value="44">Photo 44</option>
+        <option value="45">Photo 45</option>
+        <option value="46">Photo 46</option>
+        <option value="47">Photo 47</option>
+        <option value="48">Photo 48</option>
+        <option value="49">Photo 49</option>
+        <option value="50">Photo 50</option>
+        <option value="51">Photo 51</option>
+        <option value="52">Photo 52</option>
+        <option value="53">Photo 53</option>
+        <option value="54">Photo 54</option>
+        <option value="55">Photo 55</option>
+        <option value="56">Photo 56</option>
+        <option value="57">Photo 57</option>
+        <option value="58">Photo 58</option>
+        <option value="59">Photo 59</option>
+        <option value="60">Photo 60</option>
+        <option value="61">Photo 61</option>
+        <option value="62">Photo 62</option>
+        <option value="63">Photo 63</option>
+        <option value="64">Photo 64</option>
+        <option value="65">Photo 65</option>
+        <option value="66">Photo 66</option>
+        <option value="67">Photo 67</option>
+        <option value="68">Photo 68</option>
+        <option value="69">Photo 69</option>
+        <option value="70">Photo 70</option>
+        <option value="71">Photo 71</option>
+        <option value="72">Photo 72</option>
+        <option value="73">Photo 73</option>
+        <option value="74">Photo 74</option>
+        <option value="75">Photo 75</option>
+    </select>
+
+    <small>
+        Choisissez une photo parmi les 75 photos disponibles.
+        Lors d'une modification, la photo actuelle sera conservée
+        si vous ne choisissez pas une autre photo.
+    </small>
+</div>
 
       <div class="form-actions">
         <button class="btn" type="submit" id="boutonMembre">
@@ -1807,7 +1892,8 @@ $("formNouveauCompte")?.addEventListener("submit", async event => {
   }
 });
 
-/* MEDIAS : GALERIE ET KHASSIDAS */
+
+/* MEDIAS : GALERIE, KHASSIDAS ET PDF */
 async function chargerMedias() {
   const list = $("listeMedias");
   if (!list) return;
@@ -1828,7 +1914,7 @@ async function chargerMedias() {
     list.replaceChildren();
 
     if (!mediaItems.length) {
-      list.append(emptyState("Aucun média pour le moment. Ajoutez votre première photo, vidéo ou khassida."));
+      list.append(emptyState("Aucun média pour le moment. Ajoutez une photo, vidéo, khassida ou PDF."));
       return;
     }
 
@@ -1845,19 +1931,44 @@ async function chargerMedias() {
         image.alt = media.titre || "Photo du Daara";
         image.loading = "lazy";
         preview.append(image);
+
       } else if (media.type === "video") {
         const video = document.createElement("video");
         video.src = media.url;
         video.controls = true;
         video.preload = "metadata";
         preview.append(video);
-      } else {
+
+      } else if (media.type === "audio") {
         const audio = document.createElement("audio");
         audio.src = media.url;
         audio.controls = true;
         audio.preload = "metadata";
         audio.className = "media-audio";
         preview.append(audio);
+
+      } else if (media.type === "pdf") {
+        const pdfBox = document.createElement("div");
+        pdfBox.style.padding = "24px";
+        pdfBox.style.textAlign = "center";
+
+        const icon = document.createElement("div");
+        icon.textContent = "📄";
+        icon.style.fontSize = "48px";
+
+        const label = document.createElement("p");
+        label.textContent = "Document PDF";
+
+        const ouvrir = document.createElement("a");
+        ouvrir.href = media.url;
+        ouvrir.target = "_blank";
+        ouvrir.rel = "noopener noreferrer";
+        ouvrir.textContent = "Ouvrir le PDF";
+        ouvrir.className = "btn";
+        ouvrir.style.display = "inline-block";
+
+        pdfBox.append(icon, label, ouvrir);
+        preview.append(pdfBox);
       }
 
       const body = document.createElement("div");
@@ -1865,41 +1976,59 @@ async function chargerMedias() {
 
       addText(body, "h4", media.titre || "Média sans titre");
 
+      const typeTexte = {
+        photo: "Photo",
+        video: "Vidéo",
+        audio: "Khassida / Audio",
+        pdf: "Document PDF"
+      };
+
       addText(
         body,
         "p",
-        [media.edition ? "Édition : " + media.edition : "", media.sectionId && media.sectionId !== "galerie" ? "Rubrique : " + media.sectionId : "", media.description || (media.type === "audio" ? "Khassida / Audio" :
-        media.type === "video" ? "Vidéo" : "Photo")].filter(Boolean).join(" · ")
+        [
+          media.edition ? "Édition : " + media.edition : "",
+          media.sectionId && media.sectionId !== "galerie"
+            ? "Rubrique : " + media.sectionId
+            : "",
+          media.description || typeTexte[media.type] || "Média"
+        ].filter(Boolean).join(" · ")
       );
 
-      const remove = makeButton("Supprimer le fichier", "btn-danger", async () => {
-        if (!confirm("Supprimer définitivement ce fichier ?")) return;
+      const remove = makeButton(
+        "Supprimer le fichier",
+        "btn-danger",
+        async () => {
+          if (!confirm("Supprimer définitivement ce fichier ?")) return;
 
-        remove.disabled = true;
+          remove.disabled = true;
 
-        try {
-          await apiJson("/api/medias/" + encodeURIComponent(media.id), {
-            method:"DELETE"
-          });
+          try {
+            await apiJson("/api/medias/" + encodeURIComponent(media.id), {
+              method: "DELETE"
+            });
 
-          message($("messageMedia"), "Fichier supprimé.");
-          await chargerMedias();
-        } catch (error) {
-          message($("messageMedia"), error.message, true);
-          remove.disabled = false;
+            message($("messageMedia"), "Fichier supprimé.");
+            await chargerMedias();
+          } catch (error) {
+            message($("messageMedia"), error.message, true);
+            remove.disabled = false;
+          }
         }
-      });
+      );
 
       body.append(remove);
       card.append(preview, body);
       list.append(card);
     });
+
   } catch (error) {
     list.replaceChildren(emptyState(error.message));
     $("compteurMedias").textContent = "Indisponible";
     $("statMedias").textContent = "—";
   }
 }
+
 
 $("formMedia")?.addEventListener("submit", async event => {
   event.preventDefault();
@@ -2359,8 +2488,11 @@ function afficherListeContenus(elementId, arr, type) {
           $('membreRole').value = item2.role || '';
           $('membreCommission').value = item2.commission || '';
 
-          const champPhoto = $('membrePhotoFichier');
-          if (champPhoto) champPhoto.value = '';
+          const numeroPhoto = item2.photo?.match(/membre(\d+)\.jpg$/)?.[1] || "";
+
+          if ($("membreNumeroPhoto")) {
+          $("membreNumeroPhoto").value = numeroPhoto;
+}
 
           $('titreFormMembre').textContent = 'Modifier le membre';
           $('boutonMembre').textContent = 'Enregistrer les modifications';
@@ -2436,13 +2568,12 @@ function afficherListeContenus(elementId, arr, type) {
 
 
 
-/* ENREGISTREMENT DES MEMBRES */
+/* ENREGISTREMENT DES MEMBRES : PHOTOS LOCALES */
 $("formMembre")?.addEventListener("submit", async event => {
   event.preventDefault();
 
   const bouton = $("boutonMembre");
   bouton.disabled = true;
-
   message($("membreMessage"), "Enregistrement en cours…");
 
   try {
@@ -2461,45 +2592,11 @@ $("formMembre")?.addEventListener("submit", async event => {
       throw new Error("Le membre à modifier est introuvable.");
     }
 
-    let photo = ancienMembre?.photo || "";
+    const numeroPhoto = $("membreNumeroPhoto").value;
 
-    const fichier = $("membrePhotoFichier").files?.[0];
-
-    // Envoyer la photo si un fichier est sélectionné.
-    if (fichier) {
-      const formulairePhoto = new FormData();
-      formulairePhoto.append("type", "photo");
-      formulairePhoto.append("sectionId", "membres");
-      formulairePhoto.append(
-        "titre",
-        $("membreNom").value.trim()
-      );
-      formulairePhoto.append(
-        "description",
-        "Photo d'un membre du Daara"
-      );
-      formulairePhoto.append("fichier", fichier);
-
-      const resultat = await apiJson("/api/medias", {
-  method: "POST",
-  body: formulairePhoto
-});
-
-const media = resultat.media || resultat.data || resultat;
-
-photo =
-  media.url ||
-  media.media?.url ||
-  media.data?.url ||
-  media.fichier?.url ||
-  "";
-
-
-      if (!photo) {
-        throw new Error(
-          "La photo a été envoyée, mais son adresse n'a pas été trouvée dans la réponse du serveur."
-        );
-      }
+    if (numeroPhoto && (!/^\d+$/.test(numeroPhoto) ||
+        Number(numeroPhoto) < 1 || Number(numeroPhoto) > 75)) {
+      throw new Error("Choisissez une photo entre 1 et 75.");
     }
 
     const membre = {
@@ -2508,7 +2605,9 @@ photo =
       categorie: $("membreCategorie").value,
       role: $("membreRole").value.trim(),
       commission: $("membreCommission").value.trim(),
-      photo
+      photo: numeroPhoto
+        ? `/images/membres/membre${numeroPhoto}.jpg`
+        : (ancienMembre?.photo || "")
     };
 
     if (!membre.nom) {
@@ -2555,6 +2654,7 @@ photo =
     bouton.disabled = false;
   }
 });
+
 
 /* ANNULER LA MODIFICATION */
 $("annulerEditionMembre")?.addEventListener("click", () => {

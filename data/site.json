@@ -288,6 +288,16 @@
       "dateAjout": "2026-10-26T12:52:06.897Z",
       "sectionId": "galerie",
       "edition": "2023"
+    },
+    {
+      "id": "e482f53c-59e9-45f6-89eb-21e176d31e31",
+      "type": "pdf",
+      "titre": "Tazawwud ss sighar fr",
+      "description": "",
+      "url": "/documents/khassidas/tazawwud-ss-sighar-fr.pdf",
+      "dateAjout": "2026-10-29T12:59:49.167Z",
+      "sectionId": "galerie",
+      "edition": ""
     }
   ],
   "membres": [
@@ -327,7 +337,7 @@
       "id": "002fbb84-4085-4bd8-b111-950e3c17442a",
       "nom": "Mor Talla Sene",
       "categorie": "Membre actif",
-      "role": "Membre Actif",
+      "role": "Membre du Comite Communication",
       "commission": "",
       "photo": "https://res.cloudinary.com/igee1f3c/image/upload/v1793019500/kkccab/8336f465-8e08-4554-817e-f3f7c0de2203.jpg"
     },
@@ -354,6 +364,22 @@
       "role": "Membre du Comite Directoire",
       "commission": "",
       "photo": "https://res.cloudinary.com/igee1f3c/image/upload/v1793019771/kkccab/2703e29f-d569-407b-a588-233acf7b483f.jpg"
+    },
+    {
+      "id": "5a006f92-b7c3-4149-bbe8-9a354632af66",
+      "nom": "Pape Omar Gaye",
+      "categorie": "Responsable de commission",
+      "role": "Dieuwrigne Du Kourel Khitmatoul Khadim",
+      "commission": "",
+      "photo": "/images/membres/membre9.jpg"
+    },
+    {
+      "id": "4f360dd6-69cd-42bb-a06a-67569315d3a6",
+      "nom": "Mouhamed Diouf Hisbou",
+      "categorie": "Membre actif",
+      "role": "Membre du Comite Oganisation",
+      "commission": "",
+      "photo": "/images/membres/membre10.jpg"
     }
   ],
   "actualites": [],
